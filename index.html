@@ -78,6 +78,238 @@
         .animate-pulse-subtle {
             animation: pulse-subtle 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
+        /* Compact interface: keep the existing interactions, reduce visual noise. */
+        :root {
+            color-scheme: dark;
+        }
+
+        body {
+            background: #0b1220;
+        }
+
+        header {
+            background: rgba(11, 18, 32, 0.96) !important;
+        }
+
+        header > div {
+            max-width: 72rem !important;
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        header h1 {
+            font-size: 1rem !important;
+        }
+
+        header p,
+        header h1 + span {
+            display: none !important;
+        }
+
+        header .w-10 {
+            width: 2.25rem !important;
+            height: 2.25rem !important;
+            border-radius: 0.65rem !important;
+            background: #0891b2 !important;
+            box-shadow: none !important;
+        }
+
+        header nav {
+            background: transparent !important;
+            border: 0 !important;
+            gap: 0.25rem;
+        }
+
+        header nav button {
+            padding: 0.5rem 0.7rem !important;
+            border-radius: 0.5rem !important;
+            box-shadow: none !important;
+            background-image: none !important;
+        }
+
+        header nav button i {
+            display: none;
+        }
+
+        main {
+            max-width: 72rem !important;
+            padding-top: 1.25rem !important;
+            padding-bottom: 2rem !important;
+        }
+
+        .glass-card {
+            background: #111b2d;
+            border-color: #263449;
+            backdrop-filter: none;
+            box-shadow: none !important;
+        }
+
+        #view-general,
+        #view-transport,
+        #view-templates {
+            gap: 1rem !important;
+        }
+
+        #view-general > .glass-card:first-child {
+            padding: 0.75rem 1rem !important;
+            background: #101a2b;
+        }
+
+        #view-general > .glass-card:first-child > div:first-child {
+            display: none;
+        }
+
+        #view-general > .glass-card:first-child > div:last-child {
+            width: 100%;
+            justify-content: flex-start;
+            gap: 0.5rem;
+        }
+
+        #view-general > .glass-card:first-child button {
+            padding: 0.4rem 0.65rem !important;
+            border-radius: 0.45rem !important;
+        }
+
+        #view-general .grid {
+            gap: 1rem !important;
+        }
+
+        #view-general section,
+        #view-transport section,
+        #view-templates section {
+            border-radius: 0.75rem !important;
+            padding: 1rem !important;
+        }
+
+        #view-general section > .border-b,
+        #view-transport section > .border-b,
+        #view-templates section > .border-b {
+            padding-bottom: 0.65rem !important;
+        }
+
+        #view-general section h2,
+        #view-transport section h2,
+        #view-templates section h2 {
+            font-size: 0.9rem !important;
+        }
+
+        #view-general .sticky {
+            top: 4.5rem;
+        }
+
+        #live-math-display,
+        #tp-math-model-box {
+            padding: 0.75rem !important;
+            border-radius: 0.6rem !important;
+        }
+
+        button,
+        input,
+        select {
+            transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease !important;
+        }
+
+        button.bg-gradient-to-r,
+        button[class*="bg-gradient"] {
+            background-image: none !important;
+            background-color: #0891b2 !important;
+            box-shadow: none !important;
+        }
+
+        button:hover {
+            transform: none !important;
+        }
+
+        .animate-ping,
+        .animate-pulse,
+        .animate-pulse-subtle {
+            animation: none !important;
+        }
+
+        @media (max-width: 640px) {
+            header > div {
+                align-items: flex-start;
+            }
+
+            header nav {
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            header nav button {
+                flex: 0 0 auto;
+            }
+
+            main {
+                padding-left: 0.75rem !important;
+                padding-right: 0.75rem !important;
+            }
+        }
+
+        #view-onboarding {
+            max-width: 58rem;
+            margin: 0 auto;
+        }
+
+        .guided-option {
+            min-height: 9rem;
+            text-align: left;
+            background: #111b2d;
+            border: 1px solid #263449;
+            transition: border-color 120ms ease, background-color 120ms ease, transform 120ms ease;
+        }
+
+        .guided-option:hover {
+            background: #17243a;
+            border-color: #0891b2;
+            transform: translateY(-2px) !important;
+        }
+
+        .guided-option .guided-icon {
+            color: #67e8f9;
+            background: rgba(8, 145, 178, 0.14);
+        }
+
+        .guided-step {
+            border-left: 2px solid #0891b2;
+        }
+
+        .guided-example {
+            background: #0d1728;
+            border: 1px solid #263449;
+        }
+
+        .nav-menu-wrap {
+            position: relative;
+        }
+
+        .nav-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 0.5rem);
+            min-width: 13rem;
+            padding: 0.35rem;
+            background: #111b2d;
+            border: 1px solid #263449;
+            border-radius: 0.75rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .nav-menu button {
+            width: 100%;
+            justify-content: flex-start;
+            padding: 0.6rem 0.7rem !important;
+            border-radius: 0.5rem !important;
+        }
+
+        .nav-menu button:hover {
+            background: #17243a !important;
+        }
+
+        #legacy-main-tabs {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -104,6 +336,32 @@
 
             <!-- 主模式切換頁籤 -->
             <nav class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800/80">
+                <button onclick="showOnboardingPage()" id="nav-btn-home" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-2 bg-cyan-600 text-white">
+                    <i class="fa-solid fa-compass"></i>
+                    <span>問題分類</span>
+                </button>
+                <div class="nav-menu-wrap">
+                    <button onclick="toggleAdvancedTools()" id="nav-btn-tools" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-2 text-slate-300 hover:text-white">
+                        <i class="fa-solid fa-toolbox"></i>
+                        <span>進階工具</span>
+                        <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                    </button>
+                    <div id="advanced-tools-menu" class="nav-menu hidden">
+                        <button onclick="switchMainTab('general')" class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-solid fa-sliders text-cyan-300"></i>
+                            <span>自訂最佳化模型</span>
+                        </button>
+                        <button onclick="switchMainTab('transport')" class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-solid fa-truck-fast text-cyan-300"></i>
+                            <span>運輸與配送模型</span>
+                        </button>
+                        <button onclick="switchMainTab('templates')" class="flex items-center gap-2 text-slate-300">
+                            <i class="fa-solid fa-wand-magic-sparkles text-cyan-300"></i>
+                            <span>範本與 AI 建模</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="legacy-main-tabs">
                 <button onclick="switchMainTab('general')" id="tab-btn-general" class="px-3.5 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-indigo-600 text-white shadow-md">
                     <i class="fa-solid fa-sliders"></i>
                     <span>一般線性規劃 (LP)</span>
@@ -116,6 +374,7 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span>更多範本與 AI 建模</span>
                 </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -125,6 +384,86 @@
 
     <!-- 主內容區 -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- Beginner-friendly entry point -->
+        <div id="view-onboarding" class="space-y-6">
+            <section class="text-center pt-4 pb-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs text-cyan-300 bg-cyan-500/10 border border-cyan-500/25 mb-4">
+                    <i class="fa-solid fa-compass"></i>
+                    不需要先學會線性規劃
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">先告訴我，你想解決哪一種問題？</h2>
+                <p class="max-w-2xl mx-auto mt-3 text-sm sm:text-base text-slate-400 leading-relaxed">
+                    用生活中的語言描述情境，系統會幫你整理成可計算的模型。你不需要先知道變數、目標函數或限制式。
+                </p>
+            </section>
+
+            <section id="guided-picker" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('allocation')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-boxes-stacked"></i></span>
+                    <span class="block text-sm font-semibold text-white">分配有限資源</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">例如：原料和工時有限，要生產哪些產品才能賺最多？</span>
+                </button>
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('cost')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-coins"></i></span>
+                    <span class="block text-sm font-semibold text-white">用最低成本達成需求</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">例如：要達到營養或產量要求，怎麼組合才最省錢？</span>
+                </button>
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('transport')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-truck-fast"></i></span>
+                    <span class="block text-sm font-semibold text-white">安排運送與配送</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">例如：多個倉庫供貨給多個門市，怎麼運送最省成本？</span>
+                </button>
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('assignment')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-people-arrows"></i></span>
+                    <span class="block text-sm font-semibold text-white">安排人員或工作</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">例如：把員工分配到工作，讓總成本或時間最少。</span>
+                </button>
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('blending')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-flask"></i></span>
+                    <span class="block text-sm font-semibold text-white">混合原料或配方</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">例如：不同原料的價格和成分不同，要怎麼調配？</span>
+                </button>
+                <button class="guided-option rounded-xl p-4" onclick="startGuidedScenario('unsure')">
+                    <span class="guided-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4"><i class="fa-solid fa-circle-question"></i></span>
+                    <span class="block text-sm font-semibold text-white">我不確定，請幫我判斷</span>
+                    <span class="block mt-2 text-xs text-slate-400 leading-relaxed">先用幾個簡單問題確認你的問題是否適合最佳化。</span>
+                </button>
+            </section>
+
+            <section id="guided-details" class="hidden guided-step glass-card rounded-xl p-5 sm:p-6">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p id="guided-kicker" class="text-xs font-semibold text-cyan-300 uppercase tracking-wider">問題類型</p>
+                        <h3 id="guided-title" class="mt-1 text-xl font-semibold text-white"></h3>
+                        <p id="guided-description" class="mt-2 text-sm text-slate-400"></p>
+                    </div>
+                    <button class="text-xs text-slate-400 hover:text-white" onclick="resetGuidedPicker()">重新選擇</button>
+                </div>
+
+                <div class="guided-example rounded-lg p-4 mt-5">
+                    <p class="text-xs font-medium text-slate-400">你會先回答這些問題</p>
+                    <div id="guided-questions" class="grid sm:grid-cols-3 gap-3 mt-3 text-sm text-slate-200"></div>
+                </div>
+
+                <div id="guided-unknown" class="hidden mt-4 p-4 rounded-lg bg-amber-500/10 border border-amber-500/25 text-sm text-amber-100 leading-relaxed">
+                    如果你的問題可以說成「調整一些數量，讓結果最好，同時不能違反一些條件」，通常就適合用這個工具。先從一個範例開始，也可以再回來輸入自己的資料。
+                </div>
+
+                <div class="flex flex-wrap gap-3 mt-5">
+                    <button id="guided-example-button" class="px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-sm font-semibold text-white" onclick="useGuidedExample()">
+                        <i class="fa-solid fa-play mr-1.5"></i>用範例開始
+                    </button>
+                    <button class="px-4 py-2.5 rounded-lg border border-slate-700 text-sm text-slate-300 hover:bg-slate-800" onclick="openGuidedEditor()">
+                        我想自己輸入資料
+                    </button>
+                </div>
+            </section>
+
+            <div class="text-center pt-1">
+                <button class="text-xs text-slate-500 hover:text-cyan-300" onclick="openGuidedEditor()">熟悉線性規劃？直接進入進階編輯器 →</button>
+            </div>
+        </div>
 
         <!-- ==========================================
              TAB 1: 一般線性規劃 (General LP Mode)
@@ -934,8 +1273,98 @@
         /*************************************************************************
          * 主導覽頁籤切換
          *************************************************************************/
+        let guidedScenario = null;
+
+        const guidedScenarioData = {
+            allocation: {
+                title: '分配有限資源',
+                description: '適合生產、投資或排程問題：你有一些有限的資源，要決定怎麼分配才能得到最大收益。',
+                questions: ['你可以調整哪些數量？', '每個選項能帶來多少收益？', '原料、預算或工時有多少？']
+            },
+            cost: {
+                title: '用最低成本達成需求',
+                description: '適合採購、配方或營養問題：你必須達到某些要求，同時希望總成本最低。',
+                questions: ['你需要達到哪些要求？', '有哪些可選的材料或方案？', '每個方案的成本與上限是多少？']
+            },
+            transport: {
+                title: '安排運送與配送',
+                description: '適合倉庫、工廠與門市之間的配送：系統會同時考慮供應量、需求量與運費。',
+                questions: ['有哪些供應地？', '每個需求地需要多少？', '不同路線的單位運費是多少？']
+            },
+            assignment: {
+                title: '安排人員或工作',
+                description: '適合把人員、機器或任務互相配對，讓總成本、時間或距離最小。',
+                questions: ['有哪些人員或資源？', '有哪些工作或任務？', '每個配對的成本或時間是多少？']
+            },
+            blending: {
+                title: '混合原料或配方',
+                description: '適合配方、飼料或產品混合問題：在符合成分要求的前提下，找出最省成本的組合。',
+                questions: ['有哪些原料可以使用？', '每種原料的成本是多少？', '各項成分至少或至多需要多少？']
+            },
+            unsure: {
+                title: '先判斷問題是否適合最佳化',
+                description: '如果你可以調整一些數量，並且希望結果最好，同時不能違反一些條件，通常就可以建立最佳化模型。',
+                questions: ['你正在做哪一種選擇？', '什麼結果算是「最好」？', '有哪些條件不能違反？']
+            }
+        };
+
+        function startGuidedScenario(key) {
+            guidedScenario = key;
+            const data = guidedScenarioData[key];
+            document.getElementById('guided-picker').classList.add('hidden');
+            document.getElementById('guided-details').classList.remove('hidden');
+            document.getElementById('guided-kicker').textContent = key === 'unsure' ? '先做判斷' : '你選擇的是';
+            document.getElementById('guided-title').textContent = data.title;
+            document.getElementById('guided-description').textContent = data.description;
+            document.getElementById('guided-questions').innerHTML = data.questions.map((question, index) => `
+                <div class="flex gap-2 items-start"><span class="text-cyan-300 font-mono">${index + 1}.</span><span>${question}</span></div>
+            `).join('');
+            document.getElementById('guided-unknown').classList.toggle('hidden', key !== 'unsure');
+            document.getElementById('guided-example-button').classList.toggle('hidden', key === 'unsure');
+        }
+
+        function resetGuidedPicker() {
+            guidedScenario = null;
+            document.getElementById('guided-picker').classList.remove('hidden');
+            document.getElementById('guided-details').classList.add('hidden');
+        }
+
+        function showOnboardingPage() {
+            document.getElementById('view-onboarding').classList.remove('hidden');
+            document.getElementById('view-general').classList.add('hidden');
+            document.getElementById('view-transport').classList.add('hidden');
+            document.getElementById('view-templates').classList.add('hidden');
+            document.getElementById('advanced-tools-menu').classList.add('hidden');
+            document.getElementById('nav-btn-home').classList.add('bg-cyan-600', 'text-white');
+            resetGuidedPicker();
+        }
+
+        function toggleAdvancedTools() {
+            document.getElementById('advanced-tools-menu').classList.toggle('hidden');
+        }
+
+        function openGuidedEditor() {
+            switchMainTab('general');
+        }
+
+        function useGuidedExample() {
+            if (!guidedScenario || guidedScenario === 'unsure') return;
+            if (guidedScenario === 'transport') {
+                switchMainTab('transport');
+                showToast('已載入運輸問題範例，你可以依照表格逐步替換資料。', 'info');
+                return;
+            }
+            const presetMap = { allocation: 'hw_default', cost: 'min_cost', assignment: 'integer_demo', blending: 'sensitivity_demo' };
+            loadPreset(presetMap[guidedScenario]);
+            switchMainTab('general');
+            showToast('已載入範例。接下來可以把產品名稱、收益與限制換成自己的資料。', 'success');
+        }
+
         function switchMainTab(tab) {
             const tabs = ['general', 'transport', 'templates'];
+            document.getElementById('view-onboarding').classList.add('hidden');
+            document.getElementById('advanced-tools-menu').classList.add('hidden');
+            document.getElementById('nav-btn-home').classList.remove('bg-cyan-600', 'text-white');
             tabs.forEach(t => {
                 const view = document.getElementById(`view-${t}`);
                 const btn = document.getElementById(`tab-btn-${t}`);
@@ -2873,6 +3302,10 @@
             solveCurrentLP();
             renderTransportInputTable();
             buildAndSolveTransport(true);
+            document.getElementById('view-onboarding').classList.remove('hidden');
+            document.getElementById('view-general').classList.add('hidden');
+            document.getElementById('view-transport').classList.add('hidden');
+            document.getElementById('view-templates').classList.add('hidden');
         };
     </script>
 </body>
