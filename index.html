@@ -446,6 +446,19 @@
                     <div id="guided-questions" class="grid sm:grid-cols-3 gap-3 mt-3 text-sm text-slate-200"></div>
                 </div>
 
+                <div id="guided-form" class="mt-5"></div>
+
+                <div id="guided-result" class="hidden mt-5 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/25">
+                    <p class="text-xs font-semibold text-emerald-300">先看懂結果</p>
+                    <h4 id="guided-result-title" class="mt-1 text-lg font-semibold text-white"></h4>
+                    <p id="guided-result-summary" class="mt-2 text-sm text-slate-300 leading-relaxed"></p>
+                    <div id="guided-result-values" class="grid sm:grid-cols-3 gap-2 mt-4"></div>
+                    <div class="flex flex-wrap gap-3 mt-4">
+                        <button class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200" onclick="openGuidedEditor()">用自己的資料試試看</button>
+                        <button class="px-4 py-2 rounded-lg text-xs text-slate-400 hover:text-white" onclick="resetGuidedPicker()">回到問題分類</button>
+                    </div>
+                </div>
+
                 <div id="guided-unknown" class="hidden mt-4 p-4 rounded-lg bg-amber-500/10 border border-amber-500/25 text-sm text-amber-100 leading-relaxed">
                     如果你的問題可以說成「調整一些數量，讓結果最好，同時不能違反一些條件」，通常就適合用這個工具。先從一個範例開始，也可以再回來輸入自己的資料。
                 </div>
@@ -1308,6 +1321,112 @@
             }
         };
 
+        function renderGuidedForm(key) {
+            const form = document.getElementById('guided-form');
+            if (key === 'unsure') {
+                form.innerHTML = '';
+                return;
+            }
+            if (key === 'transport') {
+                form.innerHTML = `
+                    <div class="guided-form-card rounded-xl border border-slate-700 bg-slate-950/40 p-4 sm:p-5">
+                        <h4 class="text-base font-semibold text-white">輸入配送資料</h4>
+                        <p class="mt-1 text-xs text-slate-400">填寫每個供應地有多少貨、每個需求地需要多少，以及不同路線的單位運費。</p>
+                        <div class="grid lg:grid-cols-2 gap-5 mt-5">
+                            <div><h5 class="text-sm font-medium text-cyan-200 mb-2">供應地</h5><div class="space-y-2">
+                                <div class="grid grid-cols-2 gap-2"><input id="guided-supply-name-1" value="倉庫 A" placeholder="供應地名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input id="guided-supply-1" type="number" value="300" placeholder="可供應數量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>
+                                <div class="grid grid-cols-2 gap-2"><input id="guided-supply-name-2" value="倉庫 B" placeholder="供應地名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input id="guided-supply-2" type="number" value="300" placeholder="可供應數量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>
+                            </div></div>
+                            <div><h5 class="text-sm font-medium text-cyan-200 mb-2">需求地</h5><div class="space-y-2">
+                                <div class="grid grid-cols-2 gap-2"><input id="guided-demand-name-1" value="門市 A" placeholder="需求地名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input id="guided-demand-1" type="number" value="250" placeholder="需求數量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>
+                                <div class="grid grid-cols-2 gap-2"><input id="guided-demand-name-2" value="門市 B" placeholder="需求地名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input id="guided-demand-2" type="number" value="350" placeholder="需求數量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>
+                            </div></div>
+                        </div>
+                        <div class="mt-5"><h5 class="text-sm font-medium text-cyan-200 mb-2">每條路線的單位運費</h5><div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-xs text-slate-500"><th class="text-left p-2">從 / 到</th><th class="p-2">門市 A</th><th class="p-2">門市 B</th></tr></thead><tbody><tr><th id="guided-cost-row-1" class="text-left p-2 text-slate-300">倉庫 A</th><td class="p-2"><input id="guided-cost-11" type="number" value="6" class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-center text-sm text-white"></td><td class="p-2"><input id="guided-cost-12" type="number" value="9" class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-center text-sm text-white"></td></tr><tr><th id="guided-cost-row-2" class="text-left p-2 text-slate-300">倉庫 B</th><td class="p-2"><input id="guided-cost-21" type="number" value="8" class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-center text-sm text-white"></td><td class="p-2"><input id="guided-cost-22" type="number" value="4" class="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-center text-sm text-white"></td></tr></tbody></table></div></div>
+                        <button type="button" class="mt-5 w-full rounded-lg bg-cyan-600 hover:bg-cyan-500 px-4 py-3 text-sm font-semibold text-white" onclick="solveGuidedTransportForm()"><i class="fa-solid fa-route mr-2"></i>計算最低配送成本</button>
+                    </div>`;
+                return;
+            }
+            const defaultType = key === 'allocation' ? 'max' : 'min';
+            form.innerHTML = `
+                <div class="guided-form-card rounded-xl border border-slate-700 bg-slate-950/40 p-4 sm:p-5">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                        <div><h4 class="text-base font-semibold text-white">輸入你的資料</h4><p class="mt-1 text-xs text-slate-400">只要填數字和名稱，不用寫公式。</p></div>
+                        <label class="text-xs text-slate-300">你想要
+                            <select id="guided-objective-type" class="ml-1 rounded-md border border-slate-700 bg-slate-900 px-2 py-1 text-xs"><option value="max" ${defaultType === 'max' ? 'selected' : ''}>收益最多</option><option value="min" ${defaultType === 'min' ? 'selected' : ''}>成本最少</option></select>
+                        </label>
+                    </div>
+                    <div class="mt-5"><div class="flex items-center justify-between mb-2"><h5 class="text-sm font-medium text-cyan-200">商品或方案</h5><span class="text-[11px] text-slate-500">收益／成本、原料用量、工時用量</span></div><div id="guided-products" class="space-y-2"></div><button type="button" class="mt-2 text-xs text-cyan-300" onclick="addGuidedProduct()"><i class="fa-solid fa-plus mr-1"></i>新增商品</button></div>
+                    <div class="mt-5"><h5 class="text-sm font-medium text-cyan-200 mb-2">限制條件</h5><p class="text-xs text-slate-500 mb-3">例如：工時最多 100 小時，或原料至少要使用 20 單位。</p><div id="guided-resources" class="space-y-2"></div></div>
+                    <button type="button" class="mt-5 w-full rounded-lg bg-cyan-600 hover:bg-cyan-500 px-4 py-3 text-sm font-semibold text-white" onclick="solveGuidedForm()"><i class="fa-solid fa-calculator mr-2"></i>計算我的問題</button>
+                </div>`;
+            document.getElementById('guided-products').innerHTML = [guidedProductRow('產品 A', defaultType === 'max' ? 20 : 5), guidedProductRow('產品 B', defaultType === 'max' ? 15 : 8)].join('');
+            document.getElementById('guided-resources').innerHTML = [guidedResourceRow('原料', '<=', 20), guidedResourceRow('工時', '<=', 35)].join('');
+        }
+
+        function guidedProductRow(name, value) {
+            return `<div class="guided-product-row grid grid-cols-1 sm:grid-cols-4 gap-2"><input data-field="name" value="${name}" placeholder="商品名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input data-field="value" type="number" step="any" value="${value}" placeholder="收益或成本" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input data-field="resource-1" type="number" step="any" value="2" placeholder="原料用量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><input data-field="resource-2" type="number" step="any" value="1" placeholder="工時用量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>`;
+        }
+
+        function guidedResourceRow(name, op, limit) {
+            return `<div class="guided-resource-row grid grid-cols-1 sm:grid-cols-4 gap-2"><input data-field="name" value="${name}" placeholder="限制名稱" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><span class="text-xs text-slate-500 flex items-center">商品用量請填在上方</span><select data-field="op" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"><option value="<=">最多</option><option value=">=">至少</option><option value="=">剛好</option></select><input data-field="limit" type="number" step="any" value="${limit}" placeholder="限制數量" class="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></div>`;
+        }
+
+        function addGuidedProduct() {
+            const products = document.getElementById('guided-products');
+            const index = products.children.length + 1;
+            products.insertAdjacentHTML('beforeend', guidedProductRow(`產品 ${String.fromCharCode(64 + index)}`, 10));
+        }
+
+        function showGuidedResult(solution, title, summary) {
+            const result = document.getElementById('guided-result');
+            const values = document.getElementById('guided-result-values');
+            document.getElementById('guided-result-title').textContent = title;
+            document.getElementById('guided-result-summary').textContent = summary;
+            if (!solution || solution.status !== 'optimal') {
+                values.innerHTML = '<div class="text-sm text-amber-200">目前找不到符合所有條件的方案，請檢查限制是否互相衝突。</div>';
+            } else {
+                values.innerHTML = lpState.varNames.map((name, index) => `<div class="p-3 rounded-lg bg-slate-950/60"><div class="text-xs text-slate-400">${name}</div><div class="mt-1 text-xl font-bold text-white">${fmtNum(solution.x[index])}</div><div class="text-xs text-slate-500">建議數量</div></div>`).join('') + `<div class="p-3 rounded-lg bg-slate-950/60"><div class="text-xs text-slate-400">${lpState.type === 'max' ? '最大收益' : '最低成本'}</div><div class="mt-1 text-xl font-bold text-emerald-300">${fmtNum(solution.z)}</div></div>`;
+            }
+            result.classList.remove('hidden');
+        }
+
+        function solveGuidedTransportForm() {
+            const value = id => document.getElementById(id).value.trim();
+            tpState = {
+                numSources: 2,
+                numDests: 2,
+                sourceNames: [value('guided-supply-name-1') || '供應地 A', value('guided-supply-name-2') || '供應地 B'],
+                destNames: [value('guided-demand-name-1') || '需求地 A', value('guided-demand-name-2') || '需求地 B'],
+                supplies: [Number(value('guided-supply-1')) || 0, Number(value('guided-supply-2')) || 0],
+                demands: [Number(value('guided-demand-1')) || 0, Number(value('guided-demand-2')) || 0],
+                costs: [[Number(value('guided-cost-11')) || 0, Number(value('guided-cost-12')) || 0], [Number(value('guided-cost-21')) || 0, Number(value('guided-cost-22')) || 0]]
+            };
+            const solution = solveFullLPModel(generateTransportLPModelObject());
+            const result = document.getElementById('guided-result');
+            document.getElementById('guided-result-title').textContent = '你的最低配送成本方案';
+            document.getElementById('guided-result-summary').textContent = solution.status === 'optimal'
+                ? '系統已在滿足所有需求、且不超過各供應地庫存的前提下，找出總運費最低的配送方式。'
+                : '目前供應總量與需求總量不一致，請檢查數量後再試一次。';
+            document.getElementById('guided-result-values').innerHTML = solution.status === 'optimal'
+                ? `<div class="p-3 rounded-lg bg-slate-950/60"><div class="text-xs text-slate-400">最低配送成本</div><div class="mt-1 text-xl font-bold text-emerald-300">$${fmtNum(solution.z)}</div></div><div class="p-3 rounded-lg bg-slate-950/60"><div class="text-xs text-slate-400">供應地</div><div class="mt-1 text-xl font-bold text-white">${tpState.numSources} 個</div></div><div class="p-3 rounded-lg bg-slate-950/60"><div class="text-xs text-slate-400">需求地</div><div class="mt-1 text-xl font-bold text-white">${tpState.numDests} 個</div></div>`
+                : '<div class="text-sm text-amber-200">請確認供應量足以滿足所有需求。</div>';
+            result.classList.remove('hidden');
+        }
+
+        function solveGuidedForm() {
+            const productRows = [...document.querySelectorAll('.guided-product-row')];
+            const resourceRows = [...document.querySelectorAll('.guided-resource-row')];
+            const get = (row, field) => row.querySelector(`[data-field="${field}"]`).value.trim();
+            const varNames = productRows.map((row, index) => get(row, 'name') || `方案 ${index + 1}`);
+            const objCoeffs = productRows.map(row => Number(get(row, 'value')) || 0);
+            const constraints = resourceRows.map((row, resourceIndex) => ({ name: get(row, 'name') || `限制 ${resourceIndex + 1}`, coeffs: productRows.map(row => Number(get(row, `resource-${resourceIndex + 1}`)) || 0), op: get(row, 'op'), rhs: Number(get(row, 'limit')) || 0 }));
+            lpState = { type: document.getElementById('guided-objective-type').value, unit: '自訂單位', numVars: varNames.length, varNames, varTypes: varNames.map(() => 'cont'), objCoeffs, constraints };
+            renderAllGeneralLPInputs();
+            solveCurrentLP();
+            showGuidedResult(lastSolution, lpState.type === 'max' ? '你的最佳分配方案' : '你的最低成本方案', lpState.type === 'max' ? '系統已在你設定的資源限制內，找出收益最大的安排。' : '系統已在你設定的條件下，找出成本最低的安排。');
+        }
+
         function startGuidedScenario(key) {
             guidedScenario = key;
             const data = guidedScenarioData[key];
@@ -1321,12 +1440,16 @@
             `).join('');
             document.getElementById('guided-unknown').classList.toggle('hidden', key !== 'unsure');
             document.getElementById('guided-example-button').classList.toggle('hidden', key === 'unsure');
+            document.getElementById('guided-result').classList.add('hidden');
+            renderGuidedForm(key);
         }
 
         function resetGuidedPicker() {
             guidedScenario = null;
             document.getElementById('guided-picker').classList.remove('hidden');
             document.getElementById('guided-details').classList.add('hidden');
+            document.getElementById('guided-form').innerHTML = '';
+            document.getElementById('guided-result').classList.add('hidden');
         }
 
         function showOnboardingPage() {
@@ -1349,6 +1472,10 @@
 
         function useGuidedExample() {
             if (!guidedScenario || guidedScenario === 'unsure') return;
+            if (guidedScenario === 'transport') {
+                solveGuidedTransportForm();
+                return;
+            }
             if (guidedScenario === 'transport') {
                 switchMainTab('transport');
                 showToast('已載入運輸問題範例，你可以依照表格逐步替換資料。', 'info');
