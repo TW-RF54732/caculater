@@ -44,9 +44,56 @@ export function openGuidedEditor() {
     window.switchMainTab?.('general');
 }
 
+export function syncSidebarToScroll() {
+    const shell = document.getElementById('workspace-shell');
+    if (!shell || shell.classList.contains('sidebar-hidden')) return;
+
+    const generalView = document.getElementById('view-general');
+    if (generalView?.classList.contains('hidden')) {
+        setSidebarActive('input');
+        return;
+    }
+
+    const isTransport = !document.getElementById('view-transport')?.classList.contains('hidden');
+    const sectionTargets = isTransport
+        ? [
+            ['formula', 'tp-math-model-box'],
+            ['analysis', 'tp-results-section']
+        ]
+        : [
+            ['input', 'input-section'],
+            ['formula', 'formula-section'],
+            ['analysis', 'results-section'],
+            ['graph', 'graphical-analysis-card']
+        ];
+
+    const threshold = 140;
+    let activeTarget = sectionTargets[0][0];
+    sectionTargets.forEach(([target, id]) => {
+        const section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= threshold) {
+            activeTarget = target;
+        }
+    });
+    setSidebarActive(activeTarget);
+}
+
+let scrollSyncPending = false;
+window.addEventListener('scroll', () => {
+    if (scrollSyncPending) return;
+    scrollSyncPending = true;
+    window.requestAnimationFrame(() => {
+        scrollSyncPending = false;
+        syncSidebarToScroll();
+    });
+}, { passive: true });
+
+window.addEventListener('resize', syncSidebarToScroll);
+
 window.setWorkspaceNavigationVisible = setWorkspaceNavigationVisible;
 window.setSidebarActive = setSidebarActive;
 window.showGuidedInputPage = showGuidedInputPage;
 window.toggleAdvancedTools = toggleAdvancedTools;
 window.showOnboardingPage = showOnboardingPage;
 window.openGuidedEditor = openGuidedEditor;
+window.syncSidebarToScroll = syncSidebarToScroll;
