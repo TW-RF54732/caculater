@@ -1620,7 +1620,13 @@
 
         function setSidebarActive(target) {
             document.querySelectorAll('[data-sidebar-target]').forEach(button => {
-                button.classList.toggle('active', button.dataset.sidebarTarget === target);
+                const isActive = button.dataset.sidebarTarget === target;
+                button.classList.toggle('active', isActive);
+                if (isActive) {
+                    button.setAttribute('aria-current', 'page');
+                } else {
+                    button.removeAttribute('aria-current');
+                }
             });
         }
 
