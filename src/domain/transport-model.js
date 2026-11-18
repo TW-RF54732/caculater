@@ -37,5 +37,5 @@ export function createTransportModel(state) {
 export function isBalancedTransport(state) {
     const supply = state.supplies.reduce((total, value) => total + Number(value || 0), 0);
     const demand = state.demands.reduce((total, value) => total + Number(value || 0), 0);
-    return supply === demand;
+    return Math.abs(supply - demand) < 1e-9;
 }
