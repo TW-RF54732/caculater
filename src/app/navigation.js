@@ -40,8 +40,13 @@ export function showOnboardingPage() {
     window.resetGuidedPicker?.();
 }
 
+export function openGuidedEditor() {
+    window.switchMainTab?.('general');
+}
+
 window.setWorkspaceNavigationVisible = setWorkspaceNavigationVisible;
 window.setSidebarActive = setSidebarActive;
 window.showGuidedInputPage = showGuidedInputPage;
 window.toggleAdvancedTools = toggleAdvancedTools;
 window.showOnboardingPage = showOnboardingPage;
+window.openGuidedEditor = openGuidedEditor;
