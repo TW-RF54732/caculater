@@ -14,5 +14,17 @@ export function setSidebarActive(target) {
     });
 }
 
+export function showGuidedInputPage() {
+    setWorkspaceNavigationVisible(true);
+    document.getElementById('view-onboarding')?.classList.remove('hidden');
+    document.getElementById('view-general')?.classList.add('hidden');
+    document.getElementById('view-transport')?.classList.add('hidden');
+    document.getElementById('view-templates')?.classList.add('hidden');
+    document.getElementById('advanced-tools-menu')?.classList.add('hidden');
+    document.getElementById('nav-btn-home')?.classList.add('bg-cyan-600', 'text-white');
+    setSidebarActive('input');
+}
+
 window.setWorkspaceNavigationVisible = setWorkspaceNavigationVisible;
 window.setSidebarActive = setSidebarActive;
+window.showGuidedInputPage = showGuidedInputPage;
