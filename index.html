@@ -1923,22 +1923,6 @@
         /*************************************************************************
          * 功能需求 6：即時顯示完整線性規劃數學模型
          *************************************************************************/
-        function formatLinearExpression(coeffs, n) {
-            let terms = [];
-            for (let i = 0; i < n; i++) {
-                const c = coeffs[i] || 0;
-                const sub = subDigit(i + 1);
-                if (Math.abs(c) < 1e-9 && terms.length > 0) continue;
-                const absC = Math.abs(c);
-                const sign = c < 0 ? '-' : (terms.length === 0 ? '' : '+');
-                const coeffStr = (absC === 1 && c !== 0) ? '' : fmtNum(absC);
-                if (c === 0 && terms.length === 0 && i < n - 1) continue;
-                terms.push(`${sign} ${coeffStr}x${sub}`.trim());
-            }
-            if (terms.length === 0) return '0';
-            return terms.join(' ');
-        }
-
         function renderLiveMathModel() {
             const box = document.getElementById('live-math-display');
             const n = lpState.numVars;
@@ -2645,7 +2629,7 @@
          * - 自動計算所有交點與可行端點 (Corner Points)
          * - 繪製各限制式直線、等利潤/等成本線 (Iso-profit / Iso-cost Line) 與最佳解位置
          *************************************************************************/
-        function clipPolygonByHalfPlane(poly, a, b, c) {
+        function legacyClipPolygonByHalfPlane(poly, a, b, c) {
             // 保留滿足 a*x + b*y <= c 的半平面
             if (poly.length === 0) return [];
             const out = [];
