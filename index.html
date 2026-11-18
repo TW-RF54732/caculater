@@ -761,6 +761,11 @@
                             </div>
                         </div>
 
+                        <div class="rounded-lg border border-cyan-500/20 bg-cyan-500/5 px-3 py-2 text-xs text-cyan-100">
+                            <i class="fa-solid fa-circle-info mr-1.5 text-cyan-300"></i>
+                            請在下方填寫每項產品的<strong>收益</strong>（最大化）或<strong>單位成本</strong>（最小化）。
+                        </div>
+
                         <div class="flex flex-wrap items-center gap-2 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
                             <span id="obj-prefix-badge" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 font-mono font-bold text-sm border border-cyan-500/30">
                                 max Z =
@@ -781,6 +786,11 @@
                             <button type="button" onclick="addConstraint()" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white shadow transition flex items-center gap-1.5">
                                 <i class="fa-solid fa-plus"></i> 新增限制式
                             </button>
+                        </div>
+
+                        <div class="rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2 text-xs text-amber-100">
+                            <i class="fa-solid fa-lightbulb mr-1.5 text-amber-300"></i>
+                            每一列是一項限制：請填寫各產品的<strong>原料用量</strong>、<strong>工時用量</strong>等資源用量，並設定可用上限或最低需求。
                         </div>
 
                         <div id="constraints-container" class="space-y-3 max-h-[420px] overflow-y-auto pr-1">
@@ -1761,6 +1771,7 @@
                 div.className = 'flex items-center gap-2 bg-slate-950/90 p-2 rounded-xl border border-slate-800';
                 div.innerHTML = `
                     <span class="px-2 py-1 rounded-lg bg-slate-900 text-cyan-400 font-mono font-bold text-xs border border-slate-800">x${sub}</span>
+                    <span class="text-[11px] text-slate-400 whitespace-nowrap">產品／活動名稱</span>
                     <input type="text" value="${lpState.varNames[i] || ''}" placeholder="變數名稱"
                         oninput="lpState.varNames[${i}] = this.value; renderLiveMathModel();"
                         class="w-full min-w-0 bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-xs text-slate-200 focus:outline-none focus:border-cyan-500">
@@ -1784,7 +1795,8 @@
                 item.className = 'flex items-center gap-1.5';
                 item.innerHTML = `
                     ${i > 0 ? '<span class="text-slate-500 font-mono font-bold">+</span>' : ''}
-                    <input type="number" step="any" value="${lpState.objCoeffs[i]}"
+                    <span class="text-[11px] text-slate-400 whitespace-nowrap">${lpState.type === 'max' ? '每單位收益' : '每單位成本'}</span>
+                    <input type="number" step="any" value="${lpState.objCoeffs[i]}" aria-label="${lpState.type === 'max' ? '每單位收益' : '每單位成本'}"
                         oninput="lpState.objCoeffs[${i}] = parseFloat(this.value) || 0; renderLiveMathModel();"
                         class="w-20 px-2 py-1.5 bg-slate-900 border border-slate-700 rounded-lg text-right font-mono text-sm text-white focus:outline-none focus:border-cyan-500">
                     <span class="font-mono text-sm text-cyan-300 font-semibold">x${sub}</span>
@@ -1813,6 +1825,7 @@
                     coeffsHtml += `
                         <div class="flex items-center gap-1">
                             ${i > 0 ? '<span class="text-slate-500 font-mono text-xs">+</span>' : ''}
+                            <span class="text-[11px] text-slate-400 whitespace-nowrap">${i === 0 ? '原料用量' : (i === 1 ? '工時用量' : `資源 ${i + 1} 用量`)}</span>
                             <input type="number" step="any" value="${c.coeffs[i] ?? 0}"
                                 oninput="lpState.constraints[${cIdx}].coeffs[${i}] = parseFloat(this.value) || 0; renderLiveMathModel();"
                                 class="w-16 sm:w-20 px-2 py-1 bg-slate-900 border border-slate-700 rounded-lg text-right font-mono text-xs sm:text-sm text-white focus:outline-none focus:border-cyan-500">
@@ -1844,7 +1857,8 @@
                                 <option value="=" ${c.op === '=' ? 'selected' : ''}>=</option>
                                 <option value=">=" ${c.op === '>=' ? 'selected' : ''}>≥</option>
                             </select>
-                            <input type="number" step="any" value="${c.rhs}"
+                            <span class="text-[11px] text-slate-400 whitespace-nowrap">限制值</span>
+                            <input type="number" step="any" value="${c.rhs}" aria-label="限制值"
                                 oninput="lpState.constraints[${cIdx}].rhs = parseFloat(this.value) || 0; renderLiveMathModel();"
                                 class="w-20 sm:w-24 px-2.5 py-1 bg-slate-900 border border-slate-700 rounded-lg text-right font-mono text-sm font-semibold text-emerald-300 focus:outline-none focus:border-cyan-500">
                         </div>
