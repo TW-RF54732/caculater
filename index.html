@@ -16,6 +16,7 @@
     <script type="module" src="./src/features/onboarding/model-metadata.js"></script>
     <script type="module" src="./src/ui/toast.js"></script>
     <script type="module" src="./src/ui/formatters.js"></script>
+    <script type="module" src="./src/app/navigation.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -1607,22 +1608,6 @@
             document.getElementById('guided-details').classList.add('hidden');
             document.getElementById('guided-form').innerHTML = '';
             document.getElementById('guided-result').classList.add('hidden');
-        }
-
-        function setWorkspaceNavigationVisible(visible) {
-            document.getElementById('workspace-shell').classList.toggle('sidebar-hidden', !visible);
-        }
-
-        function setSidebarActive(target) {
-            document.querySelectorAll('[data-sidebar-target]').forEach(button => {
-                const isActive = button.dataset.sidebarTarget === target;
-                button.classList.toggle('active', isActive);
-                if (isActive) {
-                    button.setAttribute('aria-current', 'page');
-                } else {
-                    button.removeAttribute('aria-current');
-                }
-            });
         }
 
         function showGuidedInputPage() {
