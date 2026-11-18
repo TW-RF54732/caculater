@@ -25,6 +25,11 @@ export function showGuidedInputPage() {
     setSidebarActive('input');
 }
 
+export function toggleAdvancedTools() {
+    document.getElementById('advanced-tools-menu')?.classList.toggle('hidden');
+}
+
 window.setWorkspaceNavigationVisible = setWorkspaceNavigationVisible;
 window.setSidebarActive = setSidebarActive;
 window.showGuidedInputPage = showGuidedInputPage;
+window.toggleAdvancedTools = toggleAdvancedTools;
