@@ -1527,6 +1527,26 @@
             </div>`;
         }
 
+        function guidedProductRow(name, value) {
+            const objective = document.getElementById('guided-objective-type')?.value === 'min' ? '每單位成本' : '每單位收益';
+            return `<div class="guided-product-row relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pr-8">
+                <label class="text-xs text-slate-400">產品／活動名稱<input data-field="name" value="${name}" placeholder="例如：產品 A" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></label>
+                <label class="text-xs text-slate-400">${objective}<input data-field="value" type="number" step="any" value="${value}" placeholder="請填金額" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></label>
+                <label class="text-xs text-slate-400">原料用量<input data-field="resource-1" type="number" step="any" value="2" placeholder="每單位用量" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></label>
+                <label class="text-xs text-slate-400">工時用量<input data-field="resource-2" type="number" step="any" value="1" placeholder="每單位工時" class="mt-1 w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"></label>
+                <button type="button" class="absolute right-0 top-0 rounded-md px-2 py-1 text-xs text-slate-500 hover:bg-rose-500/15 hover:text-rose-300" onclick="removeGuidedProduct(this)" title="移除商品"><i class="fa-solid fa-trash-can"></i></button>
+            </div>`;
+        }
+
+        function removeGuidedProduct(button) {
+            const products = document.getElementById('guided-products');
+            if (products.children.length <= 1) {
+                showToast('至少需要保留一項商品。', 'warn');
+                return;
+            }
+            button.closest('.guided-product-row')?.remove();
+        }
+
         function addGuidedProduct() {
             const products = document.getElementById('guided-products');
             const index = products.children.length + 1;
