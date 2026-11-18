@@ -1,0 +1,30 @@
+.workspace-shell {
+    display: flex;
+    align-items: flex-start;
+    max-width: 90rem;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.workspace-sidebar {
+    position: sticky;
+    top: 5.25rem;
+    flex: 0 0 15.5rem;
+}
+
+.workspace-main {
+    flex: 1;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .workspace-shell {
+        display: block;
+    }
+
+    .workspace-sidebar {
+        position: sticky;
+        top: 4.25rem;
+        z-index: 30;
+    }
+}

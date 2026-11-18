@@ -1,0 +1,13 @@
+.glass-card {
+    background: var(--app-surface);
+    border: 1px solid var(--app-border);
+}
+
+.current-model-banner {
+    border-color: rgba(34, 211, 238, 0.25);
+    background: rgba(8, 145, 178, 0.1);
+}
+
+.guided-option:hover {
+    border-color: var(--app-accent);
+}
