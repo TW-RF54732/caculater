@@ -310,6 +310,130 @@
         #legacy-main-tabs {
             display: none !important;
         }
+
+        /* Quick presets duplicate the problem categories and guided examples. */
+        #view-general > .glass-card:first-child {
+            display: none !important;
+        }
+
+        /* Workspace navigation: choose the level of detail after selecting a problem. */
+        .workspace-shell {
+            display: flex;
+            align-items: flex-start;
+            max-width: 90rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .workspace-sidebar {
+            position: sticky;
+            top: 5.25rem;
+            flex: 0 0 15.5rem;
+            min-height: calc(100vh - 7rem);
+            padding: 1rem 0.75rem 1rem 0;
+        }
+
+        .workspace-sidebar-inner {
+            background: #101a2b;
+            border: 1px solid #263449;
+            border-radius: 1rem;
+            padding: 0.7rem;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
+        }
+
+        .sidebar-label {
+            padding: 0.6rem 0.7rem 0.45rem;
+            color: #64748b;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-link {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.7rem;
+            border-radius: 0.7rem;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            text-align: left;
+            transition: background-color 120ms ease, color 120ms ease;
+        }
+
+        .sidebar-link i {
+            width: 1rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .sidebar-link:hover {
+            background: #17243a;
+            color: #e2e8f0;
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.28), rgba(79, 70, 229, 0.25));
+            color: #fff;
+            box-shadow: inset 2px 0 0 #22d3ee;
+        }
+
+        .sidebar-link.active i {
+            color: #67e8f9;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            margin: 0.65rem 0;
+            background: #263449;
+        }
+
+        .workspace-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .workspace-shell.sidebar-hidden .workspace-sidebar {
+            display: none;
+        }
+
+        .workspace-shell.sidebar-hidden .workspace-main {
+            max-width: 72rem;
+            margin: 0 auto;
+        }
+
+        #view-general, #view-transport, #view-templates {
+            scroll-margin-top: 5.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-shell { display: block; }
+            .workspace-sidebar {
+                position: sticky;
+                top: 4.25rem;
+                z-index: 30;
+                min-height: auto;
+                padding: 0.65rem 0.75rem 0;
+                background: #0b1220;
+            }
+            .workspace-sidebar-inner {
+                display: flex;
+                gap: 0.35rem;
+                overflow-x: auto;
+                padding: 0.4rem;
+                border-radius: 0.75rem;
+            }
+            .sidebar-label, .sidebar-divider { display: none; }
+            .sidebar-link {
+                flex: 0 0 auto;
+                width: auto;
+                white-space: nowrap;
+                padding: 0.55rem 0.7rem;
+            }
+            .sidebar-link i { width: auto; }
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-cyan-500/30 selection:text-cyan-200">
@@ -382,8 +506,22 @@
     <!-- 通知訊息框 (取代 alert) -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
+    <div id="workspace-shell" class="workspace-shell sidebar-hidden">
+        <aside class="workspace-sidebar" aria-label="問題分析導覽">
+            <div class="workspace-sidebar-inner">
+                <div class="sidebar-label">問題工作區</div>
+                <button class="sidebar-link active" data-sidebar-target="input" onclick="navigateSidebar('input')"><i class="fa-solid fa-pen-to-square"></i><span>一般資料填入</span></button>
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-label">詳細檢視</div>
+                <button class="sidebar-link" data-sidebar-target="formula" onclick="navigateSidebar('formula')"><i class="fa-solid fa-square-root-variable"></i><span>數學公式與模型</span></button>
+                <button class="sidebar-link" data-sidebar-target="analysis" onclick="navigateSidebar('analysis')"><i class="fa-solid fa-chart-line"></i><span>結果與進一步分析</span></button>
+                <button class="sidebar-link" data-sidebar-target="graph" onclick="navigateSidebar('graph')"><i class="fa-solid fa-chart-area"></i><span>圖表與敏感度</span></button>
+            </div>
+        </aside>
+        <div class="workspace-main">
+
     <!-- 主內容區 -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main class="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
 
         <!-- Beginner-friendly entry point -->
         <div id="view-onboarding" class="space-y-6">
@@ -484,7 +622,7 @@
         <div id="view-general" class="space-y-6">
             
             <!-- 快速範例載入列 -->
-            <div class="glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
+            <div class="preset-quick-actions glass-card rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-2.5">
                     <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
                     <span class="text-xs sm:text-sm font-semibold text-slate-200">經典案例快速載入：</span>
@@ -518,7 +656,7 @@
                 <div class="lg:col-span-7 space-y-6">
                     
                     <!-- 1 & 2. 問題類型與決策變數設定 -->
-                    <section class="glass-card rounded-2xl p-5 space-y-5">
+                    <section id="input-section" class="glass-card rounded-2xl p-5 space-y-5">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold flex items-center justify-center border border-cyan-500/30">1</span>
@@ -572,7 +710,7 @@
                     </section>
 
                     <!-- 3. 目標函數輸入 -->
-                    <section class="glass-card rounded-2xl p-5 space-y-4">
+                    <section id="objective-section" class="glass-card rounded-2xl p-5 space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold flex items-center justify-center border border-cyan-500/30">2</span>
@@ -596,7 +734,7 @@
                     </section>
 
                     <!-- 4. 限制式輸入 -->
-                    <section class="glass-card rounded-2xl p-5 space-y-4">
+                    <section id="constraints-section" class="glass-card rounded-2xl p-5 space-y-4">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold flex items-center justify-center border border-cyan-500/30">3</span>
@@ -615,7 +753,7 @@
 
                 <!-- 右欄：即時數學模型預覽與求解按鈕 (5 cols) -->
                 <div class="lg:col-span-5 space-y-6">
-                    <div class="glass-card rounded-2xl p-5 sticky top-20 space-y-5 border-cyan-500/30">
+                    <div id="formula-section" class="glass-card rounded-2xl p-5 sticky top-20 space-y-5 border-cyan-500/30">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                             <div class="flex items-center gap-2">
                                 <i class="fa-solid fa-square-root-variable text-cyan-400"></i>
@@ -1181,6 +1319,8 @@
         </div>
 
     </main>
+        </div>
+    </div>
 
     <!-- 頁尾資訊 -->
     <footer class="border-t border-slate-900 bg-slate-950/90 py-4 mt-12">
@@ -1402,7 +1542,9 @@
                 demands: [Number(value('guided-demand-1')) || 0, Number(value('guided-demand-2')) || 0],
                 costs: [[Number(value('guided-cost-11')) || 0, Number(value('guided-cost-12')) || 0], [Number(value('guided-cost-21')) || 0, Number(value('guided-cost-22')) || 0]]
             };
-            const solution = solveFullLPModel(generateTransportLPModelObject());
+            // Keep the same min-cost transport model for the result and the detail view.
+            lpState = generateTransportLPModelObject();
+            const solution = solveFullLPModel(lpState);
             const result = document.getElementById('guided-result');
             document.getElementById('guided-result-title').textContent = '你的最低配送成本方案';
             document.getElementById('guided-result-summary').textContent = solution.status === 'optimal'
@@ -1429,6 +1571,20 @@
 
         function startGuidedScenario(key) {
             guidedScenario = key;
+            setWorkspaceNavigationVisible(true);
+            setSidebarActive('input');
+            const guidedObjectiveTypes = {
+                allocation: 'max',
+                cost: 'min',
+                transport: 'min',
+                assignment: 'min',
+                blending: 'min'
+            };
+            if (guidedObjectiveTypes[key] && key !== 'transport') {
+                lpState.type = guidedObjectiveTypes[key];
+                renderAllGeneralLPInputs();
+                solveCurrentLP();
+            }
             const data = guidedScenarioData[key];
             document.getElementById('guided-picker').classList.add('hidden');
             document.getElementById('guided-details').classList.remove('hidden');
@@ -1442,14 +1598,74 @@
             document.getElementById('guided-example-button').classList.toggle('hidden', key === 'unsure');
             document.getElementById('guided-result').classList.add('hidden');
             renderGuidedForm(key);
+            if (key !== 'allocation' && key !== 'transport') {
+                document.querySelectorAll('#guided-resources select[data-field="op"]').forEach(select => {
+                    select.value = '>=';
+                });
+            }
         }
 
         function resetGuidedPicker() {
             guidedScenario = null;
+            setWorkspaceNavigationVisible(false);
             document.getElementById('guided-picker').classList.remove('hidden');
             document.getElementById('guided-details').classList.add('hidden');
             document.getElementById('guided-form').innerHTML = '';
             document.getElementById('guided-result').classList.add('hidden');
+        }
+
+        function setWorkspaceNavigationVisible(visible) {
+            document.getElementById('workspace-shell').classList.toggle('sidebar-hidden', !visible);
+        }
+
+        function setSidebarActive(target) {
+            document.querySelectorAll('[data-sidebar-target]').forEach(button => {
+                button.classList.toggle('active', button.dataset.sidebarTarget === target);
+            });
+        }
+
+        function showGuidedInputPage() {
+            setWorkspaceNavigationVisible(true);
+            document.getElementById('view-onboarding').classList.remove('hidden');
+            document.getElementById('view-general').classList.add('hidden');
+            document.getElementById('view-transport').classList.add('hidden');
+            document.getElementById('view-templates').classList.add('hidden');
+            document.getElementById('advanced-tools-menu').classList.add('hidden');
+            document.getElementById('nav-btn-home').classList.add('bg-cyan-600', 'text-white');
+            setSidebarActive('input');
+        }
+
+        function navigateSidebar(target) {
+            const isTransportScenario = guidedScenario === 'transport';
+            const viewTargets = {
+                formula: isTransportScenario ? ['transport', 'tp-math-model-box'] : ['general', 'formula-section'],
+                analysis: isTransportScenario ? ['transport', 'tp-results-section'] : ['general', 'results-section'],
+                graph: isTransportScenario ? ['transport', 'tp-results-section'] : ['general', 'graphical-analysis-card'],
+                transport: ['transport', null],
+                templates: ['templates', null]
+            };
+
+            if (target === 'onboarding') {
+                showOnboardingPage();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return;
+            }
+
+            if (target === 'input') {
+                showGuidedInputPage();
+                const sectionId = guidedScenario ? 'guided-details' : 'guided-picker';
+                requestAnimationFrame(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+                return;
+            }
+
+            const [tab, sectionId] = viewTargets[target] || viewTargets.formula;
+            switchMainTab(tab);
+            setSidebarActive(target);
+            if (sectionId) {
+                requestAnimationFrame(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         function showOnboardingPage() {
@@ -1459,6 +1675,7 @@
             document.getElementById('view-templates').classList.add('hidden');
             document.getElementById('advanced-tools-menu').classList.add('hidden');
             document.getElementById('nav-btn-home').classList.add('bg-cyan-600', 'text-white');
+            setSidebarActive('onboarding');
             resetGuidedPicker();
         }
 
@@ -1492,6 +1709,7 @@
             document.getElementById('view-onboarding').classList.add('hidden');
             document.getElementById('advanced-tools-menu').classList.add('hidden');
             document.getElementById('nav-btn-home').classList.remove('bg-cyan-600', 'text-white');
+            setSidebarActive(tab === 'general' ? 'input' : tab);
             tabs.forEach(t => {
                 const view = document.getElementById(`view-${t}`);
                 const btn = document.getElementById(`tab-btn-${t}`);
