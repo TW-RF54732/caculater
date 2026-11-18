@@ -15,6 +15,7 @@
 
     <script type="module" src="./src/features/onboarding/model-metadata.js"></script>
     <script type="module" src="./src/ui/toast.js"></script>
+    <script type="module" src="./src/ui/formatters.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -1413,18 +1414,6 @@
         /*************************************************************************
          * 工具函式：Toast 通知與數值格式化
          *************************************************************************/
-        function fmtNum(val, decimals = 4) {
-            if (val === null || val === undefined || isNaN(val)) return '0';
-            if (Math.abs(val) < 1e-9) return '0';
-            const rounded = Math.round(val * Math.pow(10, decimals)) / Math.pow(10, decimals);
-            return rounded.toString();
-        }
-
-        function subDigit(num) {
-            const map = { '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉' };
-            return String(num).split('').map(c => map[c] || c).join('');
-        }
-
         /*************************************************************************
          * 主導覽頁籤切換
          *************************************************************************/
