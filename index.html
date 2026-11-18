@@ -13,6 +13,7 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <script type="module" src="./src/features/onboarding/model-metadata.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -1616,17 +1617,9 @@
                 solveCurrentLP();
             }
             const data = guidedScenarioData[key];
-            const modelNames = {
-                allocation: '資源配置模型（線性規劃 LP）',
-                cost: '成本最小化模型（線性規劃 LP）',
-                transport: '運輸模型（運輸問題 LP）',
-                assignment: '指派模型（0-1 整數規劃）',
-                blending: '混合模型（線性規劃 LP）',
-                unsure: '尚未選定，請先描述你的問題'
-            };
             const modelValue = document.getElementById('current-model-value');
             if (modelValue) {
-                modelValue.textContent = modelNames[key] || '線性規劃模型（LP）';
+                modelValue.textContent = window.getModelDisplayName(key);
             }
             document.getElementById('guided-picker').classList.add('hidden');
             document.getElementById('guided-details').classList.remove('hidden');
