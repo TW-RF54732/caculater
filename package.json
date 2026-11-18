@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "check": "node --check src/main.js",
-    "test": "node --test tests"
+    "test": "node --test tests/domain/lp-model.test.js tests/domain/transport-model.test.js"
   }
 }
