@@ -29,7 +29,19 @@ export function toggleAdvancedTools() {
     document.getElementById('advanced-tools-menu')?.classList.toggle('hidden');
 }
 
+export function showOnboardingPage() {
+    document.getElementById('view-onboarding')?.classList.remove('hidden');
+    document.getElementById('view-general')?.classList.add('hidden');
+    document.getElementById('view-transport')?.classList.add('hidden');
+    document.getElementById('view-templates')?.classList.add('hidden');
+    document.getElementById('advanced-tools-menu')?.classList.add('hidden');
+    document.getElementById('nav-btn-home')?.classList.add('bg-cyan-600', 'text-white');
+    setSidebarActive('onboarding');
+    window.resetGuidedPicker?.();
+}
+
 window.setWorkspaceNavigationVisible = setWorkspaceNavigationVisible;
 window.setSidebarActive = setSidebarActive;
 window.showGuidedInputPage = showGuidedInputPage;
 window.toggleAdvancedTools = toggleAdvancedTools;
+window.showOnboardingPage = showOnboardingPage;
