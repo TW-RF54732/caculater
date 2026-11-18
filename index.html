@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script type="module" src="./src/features/onboarding/model-metadata.js"></script>
+    <script type="module" src="./src/ui/toast.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -1412,36 +1413,6 @@
         /*************************************************************************
          * 工具函式：Toast 通知與數值格式化
          *************************************************************************/
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            const colorMap = {
-                info: 'bg-slate-900 border-cyan-500/50 text-cyan-200',
-                success: 'bg-slate-900 border-emerald-500/50 text-emerald-200',
-                warn: 'bg-slate-900 border-amber-500/50 text-amber-200',
-                error: 'bg-slate-900 border-rose-500/50 text-rose-200'
-            };
-            const iconMap = {
-                info: 'fa-circle-info text-cyan-400',
-                success: 'fa-circle-check text-emerald-400',
-                warn: 'fa-triangle-exclamation text-amber-400',
-                error: 'fa-circle-xmark text-rose-400'
-            };
-
-            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-xl backdrop-blur-md text-xs sm:text-sm transition-all duration-300 ${colorMap[type] || colorMap.info}`;
-            toast.innerHTML = `
-                <i class="fa-solid ${iconMap[type] || iconMap.info} text-base"></i>
-                <span class="flex-1 font-medium">${message}</span>
-            `;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(8px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 3200);
-        }
-
         function fmtNum(val, decimals = 4) {
             if (val === null || val === undefined || isNaN(val)) return '0';
             if (Math.abs(val) < 1e-9) return '0';
