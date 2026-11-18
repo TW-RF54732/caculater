@@ -1,4 +1,6 @@
 import './app/navigation.js';
+import './domain/lp-model.js';
+import './domain/transport-model.js';
 import './features/onboarding/model-metadata.js';
 import './ui/formatters.js';
 import './ui/toast.js';
