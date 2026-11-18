@@ -22,5 +22,3 @@ export function clipPolygonByHalfPlane(polygon, a, b, c) {
     }
     return result;
 }
-
-window.clipPolygonByHalfPlane = clipPolygonByHalfPlane;

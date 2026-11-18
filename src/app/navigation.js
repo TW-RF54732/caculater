@@ -44,41 +44,6 @@ export function openGuidedEditor() {
     window.switchMainTab?.('general');
 }
 
-export function navigateSidebar(target) {
-    // 檢查目前是否顯示運輸與配送模型畫面
-    const isTransportView = !document.getElementById('view-transport')?.classList.contains('hidden');
-    
-    const viewTargets = {
-        formula: isTransportView ? ['transport', 'tp-math-model-box'] : ['general', 'formula-section'],
-        analysis: isTransportView ? ['transport', 'tp-results-section'] : ['general', 'results-section'],
-        graph: isTransportView ? ['transport', 'tp-results-section'] : ['general', 'graphical-analysis-card'],
-        transport: ['transport', null],
-        templates: ['templates', null]
-    };
-
-    if (target === 'onboarding') {
-        showOnboardingPage();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-    }
-
-    if (target === 'input') {
-        showGuidedInputPage();
-        const sectionId = guidedScenario ? 'guided-details' : 'guided-picker';
-        requestAnimationFrame(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-        return;
-    }
-
-    const [tab, sectionId] = viewTargets[target] || viewTargets.formula;
-    switchMainTab(tab);
-    setSidebarActive(target);
-    if (sectionId) {
-        requestAnimationFrame(() => document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-}
-
 export function syncSidebarToScroll() {
     const shell = document.getElementById('workspace-shell');
     if (!shell || shell.classList.contains('sidebar-hidden')) return;

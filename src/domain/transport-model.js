@@ -20,7 +20,7 @@ export function createTransportModel(state) {
         for (let destination = 0; destination < destinationCount; destination += 1) {
             coeffs[source * destinationCount + destination] = 1;
         }
-        constraints.push({ name: `供應 ${state.sourceNames[source]}`, coeffs, op: '<=', rhs: Number(state.supplies[source]) || 0 });
+        constraints.push({ name: `供給限制 ${state.sourceNames[source]}`, coeffs, op: '<=', rhs: Number(state.supplies[source]) || 0 });
     }
 
     for (let destination = 0; destination < destinationCount; destination += 1) {
@@ -28,10 +28,10 @@ export function createTransportModel(state) {
         for (let source = 0; source < sourceCount; source += 1) {
             coeffs[source * destinationCount + destination] = 1;
         }
-        constraints.push({ name: `需求 ${state.destNames[destination]}`, coeffs, op: '=', rhs: Number(state.demands[destination]) || 0 });
+        constraints.push({ name: `需求限制 市場${state.destNames[destination]}`, coeffs, op: '=', rhs: Number(state.demands[destination]) || 0 });
     }
 
-    return createLpModel({ type: 'min', unit: '運輸成本', numVars, varNames, varTypes: Array(numVars).fill('cont'), objCoeffs, constraints });
+    return createLpModel({ type: 'min', unit: '元 (總運輸成本)', numVars, varNames, varTypes: Array(numVars).fill('cont'), objCoeffs, constraints });
 }
 
 export function isBalancedTransport(state) {
