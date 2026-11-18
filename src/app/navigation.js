@@ -48,33 +48,26 @@ export function syncSidebarToScroll() {
     const shell = document.getElementById('workspace-shell');
     if (!shell || shell.classList.contains('sidebar-hidden')) return;
 
-    const generalView = document.getElementById('view-general');
-    const transportView = document.getElementById('view-transport');
-    
-    // 如果一般檢視與運輸檢視同時隱藏（例如在首頁 onboarding），才重設為 input
-    if (generalView?.classList.contains('hidden') && transportView?.classList.contains('hidden')) {
-        setSidebarActive('input');
-        return;
-    }
+    const isVisible = id => !document.getElementById(id)?.classList.contains('hidden');
+    let sectionTargets;
 
-    const isTransport = !transportView?.classList.contains('hidden');
-    const sectionTargets = isTransport
-        ? [
-            ['formula', 'tp-math-model-box'],
-            ['analysis', 'tp-results-section']
-        ]
-        : [
-            ['input', 'input-section'],
-            ['formula', 'formula-section'],
-            ['analysis', 'results-section'],
-            ['graph', 'graphical-analysis-card']
+    if (isVisible('view-transport')) {
+        sectionTargets = [['formula', 'tp-math-model-box'], ['analysis', 'tp-results-section']];
+    } else if (isVisible('view-general')) {
+        sectionTargets = [
+            ['input', 'input-section'], ['formula', 'formula-section'],
+            ['analysis', 'results-section'], ['graph', 'graphical-analysis-card']
         ];
+    } else {
+        // 引導頁：結果卡片出現後，捲到它時高亮「結果與進一步分析」
+        sectionTargets = [['input', 'guided-details'], ['analysis', 'guided-result']];
+    }
 
     const threshold = 140;
     let activeTarget = sectionTargets[0][0];
     sectionTargets.forEach(([target, id]) => {
-        const section = document.getElementById(id);
-        if (section && section.getBoundingClientRect().top <= threshold) {
+        const el = document.getElementById(id);
+        if (el && !el.classList.contains('hidden') && el.getBoundingClientRect().top <= threshold) {
             activeTarget = target;
         }
     });
